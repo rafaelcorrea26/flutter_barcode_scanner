@@ -30,9 +30,11 @@ class _BarcodePageState extends State<BarcodePage> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancelar', true, ScanMode.QR);
-      print(barcodeScanRes);
+      if (barcodeScanRes == '-1') {
+        barcodeScanRes = 'Leitura cancelada';
+      }
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      barcodeScanRes = 'Falha ao obter a versão da plataforma.';
     }
 
     if (!mounted) return;
@@ -52,7 +54,7 @@ class _BarcodePageState extends State<BarcodePage> {
 
       print(barcodeScanRes);
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      barcodeScanRes = 'Falha ao obter a versão da plataforma.';
     }
 
     if (!mounted) return;
@@ -119,13 +121,13 @@ class _BarcodePageState extends State<BarcodePage> {
                 onPressed: () => scanQR(),
                 child: Text('Leitor de QR Code')),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(5.0),
-          //   child: ElevatedButton(
-          //       style: ElevatedButton.styleFrom(fixedSize: const Size(350, 50), primary: Colors.blue),
-          //       onPressed: () => startBarcodeScanStream(),
-          //       child: Text('Leitor de código de barras em stream')),
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(fixedSize: const Size(350, 50), primary: Colors.blue),
+                onPressed: () => startBarcodeScanStream(),
+                child: Text('Leitor de código de barras stream')),
+          ),
         ]));
   }
 
